@@ -3,7 +3,7 @@ This repository contains the code for BERT-fused NMT, which is introduced in the
 
 # Requirements and Installation
 
-* [PyTorch](http://pytorch.org/) version >= 1.0.0
+* [PyTorch](http://pytorch.org/) version == 1.0.0/1.1.0
 * Python version >= 3.5
 
 **Installing from source**
