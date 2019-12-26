@@ -149,7 +149,7 @@ class SequenceGenerator(object):
         # compute the encoder output for each beam
         bertinput = sample['net_input']['bert_input']
         bert_encoder_padding_mask = bertinput.eq(model.models[0].berttokenizer.pad())
-        bert_outs, _ = model.models[0].bert_encoder(bertinput, output_all_encoded_layers=True, attention_mask= 1. - bert_encoder_padding_mask)
+        bert_outs, _ = model.models[0].bert_encoder(bertinput, output_all_encoded_layers=True, attention_mask=~bert_encoder_padding_mask)
         bert_outs = bert_outs[self.bert_output_layer]
         if model.models[0].mask_cls_sep:
             bert_encoder_padding_mask += bertinput.eq(model.models[0].berttokenizer.cls())

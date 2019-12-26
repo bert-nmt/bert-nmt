@@ -57,6 +57,7 @@ def main(args, init_distributed=False):
     criterion = task.build_criterion(args)
     print(model)
     print('| model {}, criterion {}'.format(args.arch, criterion.__class__.__name__))
+    #Calculate the number of parameters
     print('| num. model params: {} (num. trained: {})'.format(
         sum(p.numel() for p in model.parameters()),
         sum(p.numel() for p in model.parameters() if p.requires_grad),

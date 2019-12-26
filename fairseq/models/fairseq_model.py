@@ -238,7 +238,7 @@ class FairseqEncoderDecoderModel(BaseFairseqModel):
         """
         encoder_out = self.encoder(src_tokens, src_lengths=src_lengths, **kwargs)
         bert_encoder_padding_mask = bert_input.eq(self.berttokenizer.pad())
-        bert_encoder_out, _ =  self.bert_encoder(bert_input, output_all_encoded_layers=True, attention_mask= 1. - bert_encoder_padding_mask)
+        bert_encoder_out, _ =  self.bert_encoder(bert_input, output_all_encoded_layers=True, attention_mask=~bert_encoder_padding_mask)
         bert_encoder_out = bert_encoder_out[self.bert_output_layer]
         if self.mask_cls_sep:
             bert_encoder_padding_mask += bert_input.eq(self.berttokenizer.cls())

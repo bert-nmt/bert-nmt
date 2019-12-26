@@ -336,7 +336,7 @@ class TransformerS2Model(FairseqEncoderDecoderModel):
                 - a dictionary with any model-specific outputs
         """
         bert_encoder_padding_mask = bert_input.eq(self.berttokenizer.pad())
-        bert_encoder_out, _ =  self.bert_encoder(bert_input, output_all_encoded_layers=True, attention_mask= 1. - bert_encoder_padding_mask)
+        bert_encoder_out, _ =  self.bert_encoder(bert_input, output_all_encoded_layers=True, attention_mask=~bert_encoder_padding_mask)
         bert_encoder_out = bert_encoder_out[self.bert_output_layer]
         if self.mask_cls_sep:
             bert_encoder_padding_mask += bert_input.eq(self.berttokenizer.cls())
@@ -1238,7 +1238,7 @@ class TransformerEncoderLayer(nn.Module):
                 `(batch, src_len)` where padding elements are indicated by ``1``.
 
         Returns:
-            encoded output of shape `(batch, src_len, embed_dim)`
+            encoded output of shape `(len, batch, embed_dim)`
         """
         residual = x
         x = self.maybe_layer_norm(self.self_attn_layer_norm, x, before=True)
@@ -1286,6 +1286,11 @@ class TransformerS2EncoderLayer(nn.Module):
             self.embed_dim, args.encoder_attention_heads,
             dropout=args.attention_dropout, self_attention=True
         )
+        self.self_attn_2 = MultiheadAttention(
+            self.embed_dim*2, args.encoder_attention_heads,
+            dropout=args.attention_dropout, self_attention=True
+        )
+        self.fc_d = Linear(self.embed_dim*2,self.embed_dim)
         bert_out_dim = args.bert_out_dim
         self.bert_attn = MultiheadAttention(
             self.embed_dim, args.encoder_attention_heads,
@@ -1345,7 +1350,7 @@ class TransformerS2EncoderLayer(nn.Module):
                 `(batch, src_len)` where padding elements are indicated by ``1``.
 
         Returns:
-            encoded output of shape `(batch, src_len, embed_dim)`
+            encoded output of shape `(seq_len, batch, embed_dim)`
         """
         residual = x
         x = self.maybe_layer_norm(self.self_attn_layer_norm, x, before=True)
@@ -1353,8 +1358,14 @@ class TransformerS2EncoderLayer(nn.Module):
         x2, _ = self.bert_attn(query=x, key=bert_encoder_out, value=bert_encoder_out, key_padding_mask=bert_encoder_padding_mask)
         x1 = F.dropout(x1, p=self.dropout, training=self.training)
         x2 = F.dropout(x2, p=self.dropout, training=self.training)
-        ratios = self.get_ratio()
-        x = residual + ratios[0] * x1 + ratios[1] * x2
+        #new concact
+        x3 = torch.cat((x1,x2),2)
+        x3, _ = self.self_attn_2(query=x3, key=x3, value=x3, key_padding_mask=encoder_padding_mask)
+        x3 = self.activation_fn(self.fc_d(x3))
+        x3 = F.dropout(x3, p=self.activation_dropout, training=self.training)
+        #ratios = self.get_ratio()
+        #x = residual + ratios[0] * x1 + ratios[1] * x2
+        x = residual + x3
         x = self.maybe_layer_norm(self.self_attn_layer_norm, x, after=True)
 
         residual = x
