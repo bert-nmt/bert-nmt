@@ -1286,10 +1286,10 @@ class TransformerS2EncoderLayer(nn.Module):
             self.embed_dim, args.encoder_attention_heads,
             dropout=args.attention_dropout, self_attention=True
         )
-        self.self_attn_2 = MultiheadAttention(
-            self.embed_dim*2, args.encoder_attention_heads,
-            dropout=args.attention_dropout, self_attention=True
-        )
+        # self.self_attn_2 = MultiheadAttention(
+        #     self.embed_dim*2, args.encoder_attention_heads,
+        #     dropout=args.attention_dropout, self_attention=True
+        # )
         self.fc_d = Linear(self.embed_dim*2,self.embed_dim)
         bert_out_dim = args.bert_out_dim
         self.bert_attn = MultiheadAttention(
@@ -1360,7 +1360,7 @@ class TransformerS2EncoderLayer(nn.Module):
         x2 = F.dropout(x2, p=self.dropout, training=self.training)
         #new concact
         x3 = torch.cat((x1,x2),2)
-        x3, _ = self.self_attn_2(query=x3, key=x3, value=x3, key_padding_mask=encoder_padding_mask)
+        #x3, _ = self.self_attn_2(query=x3, key=x3, value=x3)
         x3 = self.activation_fn(self.fc_d(x3))
         x3 = F.dropout(x3, p=self.activation_dropout, training=self.training)
         #ratios = self.get_ratio()
@@ -1461,7 +1461,7 @@ class TransformerDecoderLayer(nn.Module):
 
         self.fc1 = Linear(self.embed_dim, args.decoder_ffn_embed_dim)
         self.fc2 = Linear(args.decoder_ffn_embed_dim, self.embed_dim)
-
+        #self.fc_d= Linear(self.embed_dim*2,self.embed_dim)
         self.final_layer_norm = LayerNorm(self.embed_dim, export=export)
         self.need_attn = True
 
@@ -1554,6 +1554,9 @@ class TransformerDecoderLayer(nn.Module):
             )
             x1 = F.dropout(x1, p=self.dropout, training=self.training)
             x2 = F.dropout(x2, p=self.dropout, training=self.training)
+            #x3 = torch.cat((x1,x2),2)
+            #x3 = self.activation_fn(self.fc_d(x3))
+            #x3 = F.dropout(x3,p=self.activation_dropout,training=self.training)
             ratios = self.get_ratio()
             x = residual + ratios[0] * x1 + ratios[1] * x2
             x = self.maybe_layer_norm(self.encoder_attn_layer_norm, x, after=True)
