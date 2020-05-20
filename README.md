@@ -17,7 +17,7 @@ pip install --editable .
 
 # Getting Started
 ### Data Preprocessing
-First, you should run Fairseq `prepaer-xxx.sh` to get tokenized&bped files like:
+First, you should run Fairseq `prepare-xxx.sh` to get tokenized&bped files like:
 ```
 train.en train.de valid.en valid.de test.en test.de
 ```
