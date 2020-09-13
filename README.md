@@ -32,8 +32,13 @@ python preprocess.py --source-lang src_lng --target-lang tgt_lng \
   --trainpref $TEXT/train --validpref $TEXT/valid --testpref $TEXT/test \
   --destdir destdir  --joined-dictionary --bert-model-name bert-base-uncased
 ```
+
+*Note: For more language pairs used in our paper, please refer to another [repo](https://github.com/teslacool/preprocess_iwslt/blob/master/preprocess.sh).*
+
 ### Train a vanilla NMT model using [Fairseq](https://github.com/pytorch/fairseq)
 Using data above and standard [Fairseq](https://github.com/pytorch/fairseq) repository, you can get a pretrained NMT model.
+
+*Note: The update_freq in iwslt en->zh translation is set to 2, and other hyper-parameters are the same as de<->en*
 
 ### Train a BERT-fused NMT model
 The important options we add:
