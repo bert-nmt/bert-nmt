@@ -1,6 +1,7 @@
 # Introduction
 This repository contains the code for BERT-fused NMT, which is introduced in the ICLR-20 submission.
 
+*NOTE: We have updated our [code](https://github.com/bert-nmt/bert-nmt/tree/update-20-10) to enable you use more powerful pretrained models contained in [huggingface/transformers](https://github.com/huggingface/transformers). With `bert-base-german-dbmdz-uncased`, we get a new result $37.34$ on IWSLT'14 de->en task.*
 # Requirements and Installation
 
 * [PyTorch](http://pytorch.org/) version == 1.0.0/1.1.0
