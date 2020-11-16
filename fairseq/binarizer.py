@@ -48,7 +48,7 @@ class Binarizer:
                                                   line + dict.special_tokens_map['sep_token'])
                     input_ids = dict(line)['input_ids']
                     if len(input_ids) > dict.model_max_length:
-                        input_ids = input_ids[:dict.model_max_length-1] + input_ids[-1]
+                        input_ids = input_ids[:dict.model_max_length-1] + [input_ids[-1]]
                         tokenizedline = tokenizedline[:dict.model_max_length-1] + [dict.special_tokens_map['sep_token']]
                     assert len(input_ids) == len(tokenizedline)
                     nwords = len(input_ids)
