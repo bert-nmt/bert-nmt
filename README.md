@@ -12,7 +12,7 @@ This repository contains the code for BERT-fused NMT, which is introduced in the
 To install fairseq from source and develop locally:
 ```
 git clone https://github.com/bert-nmt/bert-nmt
-cd bertnmt
+cd bert-nmt
 pip install --editable .
 ```
 
