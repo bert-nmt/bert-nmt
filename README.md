@@ -1,5 +1,17 @@
 # Introduction
-This repository contains the code for BERT-fused NMT, which is introduced in the ICLR-20 submission.
+This repository contains the code for BERT-fused NMT, which is introduced in the ICLR2020 paper [Incorporating BERT into Neural Machine Translation](https://openreview.net/forum?id=Hyl7ygStwB).
+
+If you find this work helpful in your research, please cite as:
+```
+@inproceedings{
+Zhu2020Incorporating,
+title={Incorporating BERT into Neural Machine Translation},
+author={Jinhua Zhu and Yingce Xia and Lijun Wu and Di He and Tao Qin and Wengang Zhou and Houqiang Li and Tieyan Liu},
+booktitle={International Conference on Learning Representations},
+year={2020},
+url={https://openreview.net/forum?id=Hyl7ygStwB}
+}
+```
 
 *NOTE: We have updated our [code](https://github.com/bert-nmt/bert-nmt/tree/update-20-10) to enable you use more powerful pretrained models contained in [huggingface/transformers](https://github.com/huggingface/transformers). With `bert-base-german-dbmdz-uncased`, we get a new result $37.34$ on IWSLT'14 de->en task.*
 # Requirements and Installation
