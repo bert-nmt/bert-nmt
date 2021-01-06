@@ -24,7 +24,7 @@ url={https://openreview.net/forum?id=Hyl7ygStwB}
 To install fairseq from source and develop locally:
 ```
 git clone https://github.com/bert-nmt/bert-nmt
-cd bertnmt
+cd bert-nmt
 pip install --editable .
 ```
 
