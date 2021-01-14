@@ -6,7 +6,7 @@ All requirements are updated in [Dockerfile](Dockerfile).
 
 * [PyTorch](http://pytorch.org/) version == 1.5.0
 * Python version == 3.6
-* [huggingface/transformers](https://github.com/huggingface/transformers)
+* [huggingface/transformers==3.5.0](https://github.com/huggingface/transformers)
 
 **Installing from source**
 
