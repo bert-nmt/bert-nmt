@@ -6,14 +6,14 @@ All requirements are updated in [Dockerfile](Dockerfile).
 
 * [PyTorch](http://pytorch.org/) version == 1.5.0
 * Python version == 3.6
-* [huggingface/transformers==3.5.0](https://github.com/huggingface/transformers)
+* [huggingface/transformers](https://github.com/huggingface/transformers) version == 3.5.0
 
 **Installing from source**
 
 To install fairseq from source and develop locally:
 ```shell script
-git clone https://github.com/teslacool/bertnmt
-cd bertnmt
+git clone https://github.com/bert-nmt/bert-nmt
+cd bert-nmt
 git checkout update-20-10
 pip install --editable .
 ```
@@ -23,7 +23,7 @@ pip install --editable .
 
 
 
-First, you should run Fairseq [prepaer-xxx.sh](examples/translation) to get tokenized&bped files like:
+First, you should run Fairseq [prepare-xxx.sh](examples/translation) to get tokenized&bped files like:
 ```
 # bash prepare-iwslt14.sh
 train.en train.de valid.en valid.de test.en test.de
